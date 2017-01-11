@@ -1,0 +1,44 @@
+#!/usr/bin/env php
+<?php
+
+use Symfony\Component\Console\Application;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Filesystem\Filesystem;
+
+require_once __DIR__.'/../vendor/autoload.php';
+
+(new Application('eLife error page generator'))
+    ->register('generate')
+    ->setCode(function (InputInterface $input, OutputInterface $output) {
+        $rootDir = __DIR__.'/..';
+        $outputDir = $rootDir.'/public';
+        $pageDir = $rootDir.'/resources/mustache';
+
+        $filesystem = new Filesystem();
+
+        $mustache = new Mustache_Engine([
+            'helpers' => ['assetsPath' => './assets'],
+            'loader' => new Mustache_Loader_FilesystemLoader($pageDir),
+        ]);
+
+        $filesystem->remove($outputDir);
+
+        $filesystem->dumpFile($outputDir.'/404.html', $mustache->render('page', ['error' => 'Not found']));
+        $output->writeln('Created 404.html');
+
+        $filesystem->dumpFile($outputDir.'/410.html', $mustache->render('page', ['error' => 'Gone']));
+        $output->writeln('Created 410.html');
+
+        $filesystem->dumpFile($outputDir.'/4xx.html', $mustache->render('page', ['error' => 'Client error']));
+        $output->writeln('Created 4xx.html');
+
+        $filesystem->dumpFile($outputDir.'/503.html', $mustache->render('page', ['error' => 'Service unavailable']));
+        $output->writeln('Created 503.html');
+
+        $filesystem->dumpFile($outputDir.'/5xx.html', $mustache->render('page', ['error' => 'Server error']));
+        $output->writeln('Created 5xx.html');
+    })
+    ->getApplication()
+    ->setDefaultCommand('generate', true)
+    ->run();

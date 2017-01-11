@@ -1,0 +1,12 @@
+{
+    "name": "elife/error-pages",
+    "description": "eLife error pages",
+    "type": "library",
+    "license": "MIT",
+    "require-dev": {
+        "php": "^7.0",
+        "mustache/mustache": "^2.11",
+        "symfony/console": "^3.2",
+        "symfony/filesystem": "^3.2"
+    }
+}
