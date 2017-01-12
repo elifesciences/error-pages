@@ -5,8 +5,19 @@
     "license": "MIT",
     "require-dev": {
         "php": "^7.0",
+        "elife/patterns": "dev-errors",
         "mustache/mustache": "^2.11",
+        "puli/composer-plugin": "^1.0-beta10",
+        "puli/repository": "^1.0-beta10",
         "symfony/console": "^3.2",
-        "symfony/filesystem": "^3.2"
-    }
+        "symfony/process": "^3.2"
+    },
+    "minimum-stability": "beta",
+    "prefer-stable": true,
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "git@github.com:thewilkybarkid/patterns-php.git"
+        }
+    ]
 }

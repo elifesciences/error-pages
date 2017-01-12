@@ -1,16 +1,27 @@
 #!/usr/bin/env php
 <?php
 
+use eLife\Patterns\Mustache\PatternLabLoader;
+use eLife\Patterns\Mustache\PuliLoader;
+use eLife\Patterns\PatternRenderer\MustachePatternRenderer;
+use eLife\Patterns\ViewModel;
+use Puli\Repository\Api\ResourceRepository;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\Process\ProcessBuilder;
 
 require_once __DIR__.'/../vendor/autoload.php';
 
 (new Application('eLife error page generator'))
     ->register('generate')
     ->setCode(function (InputInterface $input, OutputInterface $output) {
+        $puliFactoryClass = PULI_FACTORY_CLASS;
+        $puliFactory = new $puliFactoryClass();
+        /** @var ResourceRepository $puliRepo */
+        $puliRepo = $puliFactory->createRepository();
+
         $rootDir = __DIR__.'/..';
         $outputDir = $rootDir.'/public';
         $pageDir = $rootDir.'/resources/mustache';
@@ -19,25 +30,43 @@ require_once __DIR__.'/../vendor/autoload.php';
 
         $mustache = new Mustache_Engine([
             'helpers' => ['assetsPath' => './assets'],
-            'loader' => new Mustache_Loader_FilesystemLoader($pageDir),
+            'loader' => new Mustache_Loader_CascadingLoader([
+                new Mustache_Loader_FilesystemLoader($pageDir),
+                new PuliLoader($puliRepo),
+            ]),
+            'partials_loader' => new PatternLabLoader($puliRepo->get('/elife/patterns/templates')->getFilesystemPath()),
         ]);
+
+        $patternRenderer = new MustachePatternRenderer($mustache);
 
         $filesystem->remove($outputDir);
 
-        $filesystem->dumpFile($outputDir.'/404.html', $mustache->render('page', ['error' => 'Not found']));
+        $filesystem->dumpFile($outputDir.'/404.html', $mustache->render('page', ['error' => $patternRenderer->render(new ViewModel\NotFound())]));
         $output->writeln('Created 404.html');
 
-        $filesystem->dumpFile($outputDir.'/410.html', $mustache->render('page', ['error' => 'Gone']));
+        $filesystem->dumpFile($outputDir.'/410.html', $mustache->render('page', ['error' => $patternRenderer->render(new ViewModel\NotFound())]));
         $output->writeln('Created 410.html');
 
-        $filesystem->dumpFile($outputDir.'/4xx.html', $mustache->render('page', ['error' => 'Client error']));
+        $filesystem->dumpFile($outputDir.'/4xx.html', $mustache->render('page', ['error' => $patternRenderer->render(new ViewModel\ClientError())]));
         $output->writeln('Created 4xx.html');
 
-        $filesystem->dumpFile($outputDir.'/503.html', $mustache->render('page', ['error' => 'Service unavailable']));
+        $filesystem->dumpFile($outputDir.'/503.html', $mustache->render('page', ['error' => $patternRenderer->render(new ViewModel\ServiceUnavailable())]));
         $output->writeln('Created 503.html');
 
-        $filesystem->dumpFile($outputDir.'/5xx.html', $mustache->render('page', ['error' => 'Server error']));
+        $filesystem->dumpFile($outputDir.'/5xx.html', $mustache->render('page', ['error' => $patternRenderer->render(new ViewModel\ServerError())]));
         $output->writeln('Created 5xx.html');
+
+        ProcessBuilder::create()
+            ->setArguments(['puli', 'publish', '--install'])
+            ->setWorkingDirectory(__DIR__.'/..')
+            ->setTimeout(180)
+            ->getProcess()
+            ->enableOutput()
+            ->mustRun(function ($type, $buffer) use ($output) {
+                $output->writeln($buffer, OutputInterface::VERBOSITY_DEBUG);
+            });
+
+        $output->writeln('Created assets');
     })
     ->getApplication()
     ->setDefaultCommand('generate', true)

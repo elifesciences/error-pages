@@ -9,11 +9,75 @@
 
     <title>Error | eLife</title>
 
+    <link href="./assets/css/all.css" rel="stylesheet">
+
+    <!--[if lt IE 9]>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js"
+            integrity="sha256-3Jy/GbSLrg0o9y5Z5n1uw0qxZECH7C6OQpVBgNFYa0g=" crossorigin="anonymous"></script>
+    <script>document.createElement("picture");</script>
+    <![endif]-->
+
+    <script>
+        WebFontConfig = {
+            custom: {
+                families: ["Avenir Next Webfont"],
+                urls: ["./assets/fonts/fonts.css"]
+            }
+        };
+
+        (function (d) {
+            var wf = d.createElement("script");
+            var s = d.scripts[0];
+            wf.src = "https://ajax.googleapis.com/ajax/libs/webfont/1.6.16/webfont.js";
+            s.parentNode.insertBefore(wf, s);
+        })(document);
+    </script>
+
+    <style>
+
+        html, body {
+            height: 100%;
+        }
+
+        .outer-wrapper {
+            display: table;
+            width: 100%;
+            height: 100%;
+        }
+
+        .inner-wrapper {
+            display: table-cell;
+            padding: 24px;
+            padding: 1.5rem;
+            padding-bottom: 0;
+            vertical-align: middle;
+        }
+
+    </style>
+
 </head>
 
 <body>
 
-Client error
+<div class="outer-wrapper">
+    <div class="inner-wrapper">
+        <div class="error">
+
+    <picture>
+        <source srcset="./assets/img/errors/4xx.svg" type="image/svg+xml">
+        <img srcset="./assets/img/errors/4xx-2x.png 266w" src="./assets/img/errors/4xx.png" sizes="133px"
+             alt="" class="error__icon">
+    </picture>
+
+    <h1 class="error__title">Say what?</h1>
+
+    <p>Your browser sent us something unexpected.<br>We’ve logged the problem and will look into it.</p>
+
+
+</div>
+
+    </div>
+</div>
 
 </body>
 
