@@ -3,14 +3,17 @@
 
 use eLife\Patterns\Mustache\PatternLabLoader;
 use eLife\Patterns\Mustache\PuliLoader;
+use eLife\Patterns\PatternRenderer\AssetRecordingPatternRenderer;
 use eLife\Patterns\PatternRenderer\MustachePatternRenderer;
 use eLife\Patterns\ViewModel;
+use Puli\Repository\Api\Resource\BodyResource;
+use Puli\Repository\Api\ResourceNotFoundException;
 use Puli\Repository\Api\ResourceRepository;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Filesystem\Filesystem;
-use Symfony\Component\Process\ProcessBuilder;
+use Webmozart\PathUtil\Path;
 
 require_once __DIR__.'/../vendor/autoload.php';
 
@@ -21,15 +24,17 @@ require_once __DIR__.'/../vendor/autoload.php';
         $puliFactory = new $puliFactoryClass();
         /** @var ResourceRepository $puliRepo */
         $puliRepo = $puliFactory->createRepository();
+        $puliBase = '/elife/patterns/';
 
         $rootDir = __DIR__.'/..';
         $outputDir = $rootDir.'/public';
         $pageDir = $rootDir.'/resources/mustache';
+        $publicPath = './';
 
         $filesystem = new Filesystem();
 
         $mustache = new Mustache_Engine([
-            'helpers' => ['assetsPath' => './assets'],
+            'helpers' => ['assetsPath' => $publicPath.'assets'],
             'loader' => new Mustache_Loader_CascadingLoader([
                 new Mustache_Loader_FilesystemLoader($pageDir),
                 new PuliLoader($puliRepo),
@@ -41,32 +46,87 @@ require_once __DIR__.'/../vendor/autoload.php';
 
         $filesystem->remove($outputDir);
 
-        $filesystem->dumpFile($outputDir.'/404.html', $mustache->render('page', ['error' => $patternRenderer->render(new ViewModel\NotFound())]));
-        $output->writeln('Created 404.html');
+        $pages = [];
 
-        $filesystem->dumpFile($outputDir.'/410.html', $mustache->render('page', ['error' => $patternRenderer->render(new ViewModel\NotFound())]));
-        $output->writeln('Created 410.html');
+        $viewModels = [
+            '404' => new ViewModel\NotFound(),
+            '410' => new ViewModel\NotFound(),
+            '4xx' => new ViewModel\ClientError(),
+            '503' => new ViewModel\ServiceUnavailable(),
+            '5xx' => new ViewModel\ServerError(),
+        ];
 
-        $filesystem->dumpFile($outputDir.'/4xx.html', $mustache->render('page', ['error' => $patternRenderer->render(new ViewModel\ClientError())]));
-        $output->writeln('Created 4xx.html');
+        foreach ($viewModels as $fileName => $viewModel) {
+            $assetRecordingPatternRenderer = new AssetRecordingPatternRenderer($patternRenderer);
 
-        $filesystem->dumpFile($outputDir.'/503.html', $mustache->render('page', ['error' => $patternRenderer->render(new ViewModel\ServiceUnavailable())]));
-        $output->writeln('Created 503.html');
+            $pattern = $assetRecordingPatternRenderer->render($viewModels[] = $viewModel);
 
-        $filesystem->dumpFile($outputDir.'/5xx.html', $mustache->render('page', ['error' => $patternRenderer->render(new ViewModel\ServerError())]));
-        $output->writeln('Created 5xx.html');
+            $resourceToPath = function (string $resource) use ($puliRepo, $puliBase, $publicPath) {
+                return $publicPath.substr($resource, strlen($puliBase));
+            };
 
-        ProcessBuilder::create()
-            ->setArguments(['puli', 'publish', '--install'])
-            ->setWorkingDirectory(__DIR__.'/..')
-            ->setTimeout(180)
-            ->getProcess()
-            ->enableOutput()
-            ->mustRun(function ($type, $buffer) use ($output) {
-                $output->writeln($buffer, OutputInterface::VERBOSITY_DEBUG);
-            });
+            $styleSheets = array_map($resourceToPath, iterator_to_array($assetRecordingPatternRenderer->getStyleSheets()));
+            $javaScripts = array_map($resourceToPath, iterator_to_array($assetRecordingPatternRenderer->getJavaScripts()));
 
-        $output->writeln('Created assets');
+            $filesystem->dumpFile($file = "$outputDir/$fileName.html", $pages[] = $mustache->render('page', ['error' => $pattern, 'styleSheets' => $styleSheets, 'javaScripts' => $javaScripts]));
+            $output->writeln("Created $fileName.html");
+        }
+
+        $assets = [];
+
+        foreach ($pages as $page) {
+            preg_match_all('~("|\s)('.preg_quote($publicPath, '~').'[A-Za-z0-9-_./]+)("|\s)~', $page, $matches);
+
+            $assets = array_merge($assets, $matches[2]);
+        }
+
+        $assets = array_map(function (string $asset) use ($publicPath, $puliBase) {
+            return $puliBase.substr($asset, strlen($publicPath));
+        }, $assets);
+
+        foreach ($assets as $asset) {
+            /** @var BodyResource $resource */
+            $resource = $puliRepo->get($asset);
+
+            $files = [];
+
+            if ('.css' === substr($asset, -4)) {
+                $mapResource = $asset.'.map';
+                try {
+                    $puliRepo->get($mapResource);
+
+                    $assets[] = $mapResource;
+                } catch (ResourceNotFoundException $e) {
+                    // Do nothing.
+                }
+
+                preg_match_all('~url\("([A-Za-z0-9-_./]+)"\)~', $resource->getBody(), $matches);
+
+                $files = $matches[1];
+            }
+
+            foreach ($files as $file) {
+                $file = Path::makeAbsolute($file, dirname($resource->getPath()));
+
+                try {
+                    $puliRepo->get($file);
+
+                    $assets[] = $file;
+                } catch (ResourceNotFoundException $e) {
+                    // Doesn't exist, looks like a bug.
+                }
+            }
+        }
+
+        foreach (array_unique($assets) as $asset) {
+            /** @var BodyResource $resource */
+            $resource = $puliRepo->get($asset);
+
+            $newName = substr($resource->getPath(), strlen($puliBase));
+
+            $filesystem->dumpFile("$outputDir/$newName", $resource->getBody());
+            $output->writeln('Created '.$newName);
+        }
     })
     ->getApplication()
     ->setDefaultCommand('generate', true)
