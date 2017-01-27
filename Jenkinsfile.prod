@@ -1,4 +1,4 @@
-elifePipeline {
+elifeLibrary {
     def commit
     stage 'Checkout approved', {
         checkout scm
