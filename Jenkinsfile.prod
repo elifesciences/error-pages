@@ -1,0 +1,13 @@
+elifePipeline {
+    def commit
+    stage 'Checkout approved', {
+        checkout scm
+        commit = elifeGitRevision()
+    }
+
+    stage 'Deploy', {
+        elifeDeploySlackNotification 'error-pages', 'prod'
+        elifeGitMoveToBranch commit, 'master'
+        echo "Nothing - yet"
+    }
+}
