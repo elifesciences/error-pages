@@ -6,6 +6,7 @@ elifeLibrary {
     }
 
     stage 'Sanity check', {
+        sh "composer install --no-interaction"
         sh "bin/update && git diff --exit-code"
     }
 
