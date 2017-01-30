@@ -29,7 +29,7 @@ require_once __DIR__.'/../vendor/autoload.php';
         $rootDir = __DIR__.'/..';
         $outputDir = $rootDir.'/public';
         $pageDir = $rootDir.'/resources/mustache';
-        $publicPath = './';
+        $publicPath = 'https://s3.amazonaws.com/prod-elife-error-pages/';
 
         $filesystem = new Filesystem();
 
