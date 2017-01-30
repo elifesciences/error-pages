@@ -5,7 +5,7 @@
     "license": "MIT",
     "require-dev": {
         "php": "^7.0",
-        "elife/patterns": "dev-errors",
+        "elife/patterns": "dev-master",
         "mustache/mustache": "^2.11",
         "puli/composer-plugin": "^1.0-beta10",
         "puli/repository": "^1.0-beta10",
@@ -18,7 +18,7 @@
     "repositories": [
         {
             "type": "vcs",
-            "url": "git@github.com:thewilkybarkid/patterns-php.git"
+            "url": "git@github.com:elifesciences/patterns-php.git"
         }
     ]
 }
