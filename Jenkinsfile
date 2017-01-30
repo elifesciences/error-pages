@@ -12,7 +12,8 @@ elifeLibrary {
 
     elifeMainlineOnly {
         stage 'Deploy to end2end', {
-            echo "Nothing - yet"
+            // TODO: extract step
+            sh "aws s3 cp public s3://end2end-elife-error-pages --recursive"
         }
 
         stage 'Approval', {

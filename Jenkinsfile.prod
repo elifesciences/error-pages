@@ -8,6 +8,6 @@ elifeLibrary {
     stage 'Deploy', {
         elifeDeploySlackNotification 'error-pages', 'prod'
         elifeGitMoveToBranch commit, 'master'
-        echo "Nothing - yet"
+        sh "aws s3 cp public s3://prod-elife-error-pages --recursive"
     }
 }
