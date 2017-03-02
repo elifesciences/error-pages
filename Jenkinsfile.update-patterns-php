@@ -10,7 +10,6 @@ elifeLibrary {
     stage 'Update dependencies', {
         sh "composer1.0 install --no-interaction"
         sh "composer1.0 update elife/patterns --no-interaction"
-        sh "git add ."
     }
 
     stage 'Update public folder', {
@@ -20,6 +19,7 @@ elifeLibrary {
     def differences
     def shortDescription
     stage 'Commit', {
+        sh "git add ."
         differences = elifeGitDifferences('public')
         elifeOnlyIf differences, {
             def subrepositorySummary = elifeGitSubrepositorySummary 'vendor/elife/patterns'
