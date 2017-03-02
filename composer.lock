@@ -69,12 +69,12 @@
             "source": {
                 "type": "git",
                 "url": "git@github.com:elifesciences/patterns-php.git",
-                "reference": "1610f8567529f24034f654fe41640557ce6cc754"
+                "reference": "bf7bdd0a39c9a350764d548b398bad7db9efe67e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/elifesciences/patterns-php/zipball/1610f8567529f24034f654fe41640557ce6cc754",
-                "reference": "1610f8567529f24034f654fe41640557ce6cc754",
+                "url": "https://api.github.com/repos/elifesciences/patterns-php/zipball/bf7bdd0a39c9a350764d548b398bad7db9efe67e",
+                "reference": "bf7bdd0a39c9a350764d548b398bad7db9efe67e",
                 "shasum": ""
             },
             "require": {
@@ -113,11 +113,7 @@
                 "MIT"
             ],
             "description": "eLife patterns",
-            "support": {
-                "source": "https://github.com/elifesciences/patterns-php/tree/master",
-                "issues": "https://github.com/elifesciences/patterns-php/issues"
-            },
-            "time": "2017-01-30 10:21:03"
+            "time": "2017-03-02 12:04:43"
         },
         {
             "name": "justinrainbow/json-schema",
