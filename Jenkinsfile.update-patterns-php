@@ -8,8 +8,8 @@ elifeLibrary {
     }
 
     stage 'Update dependencies', {
-        sh "composer1.0 install --no-interaction"
-        sh "composer1.0 update elife/patterns --no-interaction"
+        sh "composer install --no-interaction"
+        sh "composer update elife/patterns --no-interaction"
     }
 
     stage 'Update public folder', {
