@@ -2,44 +2,37 @@
 <?php
 
 use eLife\Patterns\Mustache\PatternLabLoader;
-use eLife\Patterns\Mustache\PuliLoader;
 use eLife\Patterns\PatternRenderer\AssetRecordingPatternRenderer;
 use eLife\Patterns\PatternRenderer\MustachePatternRenderer;
 use eLife\Patterns\ViewModel;
-use Puli\Repository\Api\Resource\BodyResource;
-use Puli\Repository\Api\ResourceNotFoundException;
-use Puli\Repository\Api\ResourceRepository;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Filesystem\Filesystem;
-use Webmozart\PathUtil\Path;
 
 require_once __DIR__.'/../vendor/autoload.php';
 
 (new Application('eLife error page generator'))
     ->register('generate')
     ->setCode(function (InputInterface $input, OutputInterface $output) {
-        $puliFactoryClass = PULI_FACTORY_CLASS;
-        $puliFactory = new $puliFactoryClass();
-        /** @var ResourceRepository $puliRepo */
-        $puliRepo = $puliFactory->createRepository();
-        $puliBase = '/elife/patterns/';
+        $patternsBase = ComposerLocator::getPath('elife/patterns');
+        $resourcesBase = "$patternsBase/resources";
+        $templatesBase = "$resourcesBase/templates";
 
         $rootDir = __DIR__.'/..';
         $outputDir = $rootDir.'/public';
         $pageDir = $rootDir.'/resources/mustache';
-        $publicPath = 'https://s3.amazonaws.com/prod-elife-error-pages/';
+        $publicPath = 'https://s3.amazonaws.com/prod-elife-error-pages';
 
         $filesystem = new Filesystem();
 
         $mustache = new Mustache_Engine([
-            'helpers' => ['assetsPath' => $publicPath.'assets'],
+            'helpers' => ['assetsPath' => $publicPath.'/assets'],
             'loader' => new Mustache_Loader_CascadingLoader([
                 new Mustache_Loader_FilesystemLoader($pageDir),
-                new PuliLoader($puliRepo),
+                $loader = new Mustache_Loader_FilesystemLoader($patternsBase),
             ]),
-            'partials_loader' => new PatternLabLoader($puliRepo->get('/elife/patterns/templates')->getFilesystemPath()),
+            'partials_loader' => new PatternLabLoader($templatesBase),
         ]);
 
         $patternRenderer = new MustachePatternRenderer($mustache);
@@ -61,8 +54,8 @@ require_once __DIR__.'/../vendor/autoload.php';
 
             $pattern = $assetRecordingPatternRenderer->render($viewModels[] = $viewModel);
 
-            $resourceToPath = function (string $resource) use ($puliRepo, $puliBase, $publicPath) {
-                return $publicPath.substr($resource, strlen($puliBase));
+            $resourceToPath = function (string $resource) use ($resourcesBase, $publicPath) {
+                return $publicPath.substr($resource, 9);
             };
 
             $styleSheets = array_map($resourceToPath, iterator_to_array($assetRecordingPatternRenderer->getStyleSheets()));
@@ -80,51 +73,39 @@ require_once __DIR__.'/../vendor/autoload.php';
             $assets = array_merge($assets, $matches[2]);
         }
 
-        $assets = array_map(function (string $asset) use ($publicPath, $puliBase) {
-            return $puliBase.substr($asset, strlen($publicPath));
+        $assets = array_map(function (string $asset) use ($publicPath, $resourcesBase) {
+            return $resourcesBase.substr($asset, strlen($publicPath));
         }, $assets);
 
         foreach ($assets as $asset) {
-            /** @var BodyResource $resource */
-            $resource = $puliRepo->get($asset);
-
             $files = [];
 
             if ('.css' === substr($asset, -4)) {
                 $mapResource = $asset.'.map';
-                try {
-                    $puliRepo->get($mapResource);
-
+                if (is_readable($mapResource)) {
                     $assets[] = $mapResource;
-                } catch (ResourceNotFoundException $e) {
-                    // Do nothing.
                 }
 
-                preg_match_all('~url\("([A-Za-z0-9-_./]+)"\)~', $resource->getBody(), $matches);
+                preg_match_all('~url\("([A-Za-z0-9-_./]+)"\)~', file_get_contents($asset), $matches);
 
                 $files = $matches[1];
             }
 
             foreach ($files as $file) {
-                $file = Path::makeAbsolute($file, dirname($resource->getPath()));
+                $file = realpath(dirname($asset)."/$file");
 
-                try {
-                    $puliRepo->get($file);
-
+                if (is_readable($file)) {
                     $assets[] = $file;
-                } catch (ResourceNotFoundException $e) {
+                } else {
                     // Doesn't exist, looks like a bug.
                 }
             }
         }
 
         foreach (array_unique($assets) as $asset) {
-            /** @var BodyResource $resource */
-            $resource = $puliRepo->get($asset);
+            $newName = substr($asset, strlen($resourcesBase));
 
-            $newName = substr($resource->getPath(), strlen($puliBase));
-
-            $filesystem->dumpFile("$outputDir/$newName", $resource->getBody());
+            $filesystem->dumpFile("$outputDir/$newName", file_get_contents($asset));
             $output->writeln('Created '.$newName);
         }
     })
