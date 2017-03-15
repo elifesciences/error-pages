@@ -4,8 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "e854376c573ef50459a0d69a6a9ae5c7",
-    "content-hash": "82f97392517ba6f313a7ba22696c11e8",
+    "content-hash": "0dd28e34a7d10c99ebac90f6752fac33",
     "packages": [],
     "packages-dev": [
         {
@@ -61,20 +60,20 @@
                 "assertion",
                 "validation"
             ],
-            "time": "2017-01-24 15:14:39"
+            "time": "2017-01-24T15:14:39+00:00"
         },
         {
             "name": "elife/patterns",
-            "version": "dev-puli",
+            "version": "dev-master",
             "source": {
                 "type": "git",
-                "url": "git@github.com:thewilkybarkid/patterns-php.git",
-                "reference": "6c7944a32a13a474d17f76ef0bbd3cecb368396c"
+                "url": "git@github.com:elifesciences/patterns-php.git",
+                "reference": "d1cca30611f1804c5a0e2aa453d9f4cb15e91466"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thewilkybarkid/patterns-php/zipball/6c7944a32a13a474d17f76ef0bbd3cecb368396c",
-                "reference": "6c7944a32a13a474d17f76ef0bbd3cecb368396c",
+                "url": "https://api.github.com/repos/elifesciences/patterns-php/zipball/d1cca30611f1804c5a0e2aa453d9f4cb15e91466",
+                "reference": "d1cca30611f1804c5a0e2aa453d9f4cb15e91466",
                 "shasum": ""
             },
             "require": {
@@ -112,9 +111,10 @@
             ],
             "description": "eLife patterns",
             "support": {
-                "source": "https://github.com/thewilkybarkid/patterns-php/tree/puli"
+                "source": "https://github.com/elifesciences/patterns-php/tree/master",
+                "issues": "https://github.com/elifesciences/patterns-php/issues"
             },
-            "time": "2017-03-14 08:56:51"
+            "time": "2017-03-15T13:08:50+00:00"
         },
         {
             "name": "mindplay/composer-locator",
@@ -152,7 +152,7 @@
                 "MIT"
             ],
             "description": "Locates Composer package root folders by package name",
-            "time": "2016-06-07 14:40:59"
+            "time": "2016-06-07T14:40:59+00:00"
         },
         {
             "name": "mustache/mustache",
@@ -198,7 +198,7 @@
                 "mustache",
                 "templating"
             ],
-            "time": "2016-07-31 06:18:27"
+            "time": "2016-07-31T06:18:27+00:00"
         },
         {
             "name": "psr/log",
@@ -245,7 +245,7 @@
                 "psr",
                 "psr-3"
             ],
-            "time": "2016-10-10 12:19:37"
+            "time": "2016-10-10T12:19:37+00:00"
         },
         {
             "name": "symfony/console",
@@ -308,7 +308,7 @@
             ],
             "description": "Symfony Console Component",
             "homepage": "https://symfony.com",
-            "time": "2017-03-06 19:30:27"
+            "time": "2017-03-06T19:30:27+00:00"
         },
         {
             "name": "symfony/debug",
@@ -365,7 +365,7 @@
             ],
             "description": "Symfony Debug Component",
             "homepage": "https://symfony.com",
-            "time": "2017-02-18 17:28:00"
+            "time": "2017-02-18T17:28:00+00:00"
         },
         {
             "name": "symfony/filesystem",
@@ -414,7 +414,7 @@
             ],
             "description": "Symfony Filesystem Component",
             "homepage": "https://symfony.com",
-            "time": "2017-03-06 19:30:27"
+            "time": "2017-03-06T19:30:27+00:00"
         },
         {
             "name": "symfony/polyfill-mbstring",
@@ -473,7 +473,7 @@
                 "portable",
                 "shim"
             ],
-            "time": "2016-11-14 01:06:16"
+            "time": "2016-11-14T01:06:16+00:00"
         }
     ],
     "aliases": [],
