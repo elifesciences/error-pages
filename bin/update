@@ -27,7 +27,12 @@ require_once __DIR__.'/../vendor/autoload.php';
         $filesystem = new Filesystem();
 
         $mustache = new Mustache_Engine([
-            'helpers' => ['assetsPath' => $publicPath.'/assets'],
+            'helpers' => [
+                'assetRewrite' => function (string $path, Mustache_LambdaHelper $helper) use ($publicPath) : string {
+                    return $publicPath.$helper->render($path);
+                },
+                'assetsPath' => '/assets',
+            ],
             'loader' => new Mustache_Loader_CascadingLoader([
                 new Mustache_Loader_FilesystemLoader($pageDir),
                 $loader = new Mustache_Loader_FilesystemLoader($patternsBase),

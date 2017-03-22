@@ -9,7 +9,7 @@
 
     <title>Error | eLife</title>
 
-    <link href="{{assetsPath}}/css/base.css" rel="stylesheet">
+    <link href="{{#assetRewrite}}{{assetsPath}}/css/base.css{{/assetRewrite}}" rel="stylesheet">
     {{#styleSheets}}
         <link href="{{.}}" rel="stylesheet">
     {{/styleSheets}}
@@ -24,7 +24,7 @@
         WebFontConfig = {
             custom: {
                 families: ["Avenir Next Webfont"],
-                urls: ["{{assetsPath}}/fonts/fonts.css"]
+                urls: ["{{#assetRewrite}}{{assetsPath}}/fonts/fonts.css{{/assetRewrite}}"]
             }
         };
 
