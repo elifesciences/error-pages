@@ -92,13 +92,7 @@ require_once __DIR__.'/../vendor/autoload.php';
             }
 
             foreach ($files as $file) {
-                $file = realpath(dirname($asset)."/$file");
-
-                if (is_readable($file)) {
-                    $assets[] = $file;
-                } else {
-                    // Doesn't exist, looks like a bug.
-                }
+                $assets[] = realpath(dirname($asset)."/$file");
             }
         }
 
