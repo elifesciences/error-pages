@@ -16,6 +16,10 @@ elifeLibrary {
             sh "aws s3 cp public s3://end2end-elife-error-pages --recursive"
         }
 
+        stage 'Deploy to continuumtest', {
+            sh "aws s3 cp public s3://continuumtest-elife-error-pages --recursive"
+        }
+
         stage 'Approval', {
             elifeGitMoveToBranch commit, 'approved'
         }
