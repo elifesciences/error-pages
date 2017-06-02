@@ -10,11 +10,5 @@
         "mustache/mustache": "^2.11",
         "symfony/console": "^3.2",
         "symfony/filesystem": "^3.2"
-    },
-    "repositories": [
-        {
-            "type": "vcs",
-            "url": "git@github.com:elifesciences/patterns-php.git"
-        }
-    ]
+    }
 }
