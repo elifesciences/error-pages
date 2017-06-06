@@ -1,36 +1,14 @@
-elifeLibrary {
-    def commit
-    def branch
-    stage 'Checkout and branch', {
-        checkout scm
-        commit = elifeGitRevision()
-        branch = elifeGitGenerateBranch 'update_patterns_php_'
-    }
-
-    stage 'Update dependencies', {
+elifeUpdatePipeline(
+    { commit ->
         sh "composer install --no-interaction"
+        elifeWaitPackagist "elife/patterns", params.revision
         sh "composer update elife/patterns --no-interaction"
-    }
-
-    stage 'Update public folder', {
         sh "bin/update"
-    }
-
-    def differences
-    def shortDescription
-    stage 'Commit', {
-        sh "git add ."
-        differences = elifeGitDifferences('public')
-        elifeOnlyIf differences, {
-            def subrepositorySummary = elifeGitSubrepositorySummary 'vendor/elife/patterns'
-            shortDescription = "Updated elife/patterns to ${subrepositorySummary}"
-            elifeGitCommit shortDescription
-        }
-    }
-
-    stage 'Push and pull request', {
-        elifeOnlyIf differences, {
-            elifeGithubPullRequest branch, shortDescription, "I have run ${env.BUILD_URL} which resulted in this pull request.", 'develop'
-        }
-    }
-}
+    },
+    {
+        def subrepositorySummary = elifeGitSubrepositorySummary 'vendor/elife/patterns'
+        return "Updated elife/patterns to ${subrepositorySummary}"
+    },
+    'update_patterns_php/',
+    true
+)
