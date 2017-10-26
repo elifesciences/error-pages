@@ -4,6 +4,7 @@ elifeUpdatePipeline(
         elifeWaitPackagist "elife/patterns", params.revision
         sh "composer update elife/patterns --no-interaction"
         sh "bin/update"
+        sh "git add -f ."
     },
     {
         def subrepositorySummary = elifeGitSubrepositorySummary 'vendor/elife/patterns'
