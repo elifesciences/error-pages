@@ -4,7 +4,10 @@ elifeUpdatePipeline(
         elifeWaitPackagist "elife/patterns", params.revision
         sh "composer update elife/patterns --no-interaction"
         sh "bin/update"
-        sh "git add --all composer.lock public/"
+        sh "git add --all public/"
+        if (elifeGitDifferences()) {
+            sh "git add composer.lock"
+        }
     },
     {
         def subrepositorySummary = elifeGitSubrepositorySummary 'vendor/elife/patterns'
