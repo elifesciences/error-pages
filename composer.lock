@@ -68,12 +68,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/elifesciences/patterns-php.git",
-                "reference": "bd4b8bfb40bde90f5c669b240d37fc2afcff3556"
+                "reference": "5be4221a3cf4dc71e8b5f27a8ae9b747c62548c3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/elifesciences/patterns-php/zipball/bd4b8bfb40bde90f5c669b240d37fc2afcff3556",
-                "reference": "bd4b8bfb40bde90f5c669b240d37fc2afcff3556",
+                "url": "https://api.github.com/repos/elifesciences/patterns-php/zipball/5be4221a3cf4dc71e8b5f27a8ae9b747c62548c3",
+                "reference": "5be4221a3cf4dc71e8b5f27a8ae9b747c62548c3",
                 "shasum": ""
             },
             "require": {
@@ -90,7 +90,11 @@
                 "symfony/filesystem": "^3.0",
                 "symfony/finder": "^3.0",
                 "symfony/process": "^3.0",
-                "symfony/yaml": "^3.1"
+                "symfony/yaml": "^3.1",
+                "twig/twig": "^2.0"
+            },
+            "suggest": {
+                "twig/twig": "^2.0, to use PatternExtension"
             },
             "type": "library",
             "autoload": {
@@ -106,7 +110,7 @@
                 "MIT"
             ],
             "description": "eLife patterns",
-            "time": "2018-01-29T13:00:13+00:00"
+            "time": "2018-02-15T14:42:16+00:00"
         },
         {
             "name": "mindplay/composer-locator",
