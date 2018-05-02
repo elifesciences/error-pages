@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "90ec352ee06a0cb4cc33b3c7313c3826",
+    "content-hash": "266f535972db3de8f51f963fdd785bc0",
     "packages": [],
     "packages-dev": [
         {
@@ -64,16 +64,16 @@
         },
         {
             "name": "elife/patterns",
-            "version": "dev-master",
+            "version": "dev-preload-fonts",
             "source": {
                 "type": "git",
                 "url": "https://github.com/elifesciences/patterns-php.git",
-                "reference": "674f39bd248dd9775e28d4fb8b6a45bac0dbf6f5"
+                "reference": "5724889e95164491807a857343470d15a26996a1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/elifesciences/patterns-php/zipball/674f39bd248dd9775e28d4fb8b6a45bac0dbf6f5",
-                "reference": "674f39bd248dd9775e28d4fb8b6a45bac0dbf6f5",
+                "url": "https://api.github.com/repos/elifesciences/patterns-php/zipball/5724889e95164491807a857343470d15a26996a1",
+                "reference": "5724889e95164491807a857343470d15a26996a1",
                 "shasum": ""
             },
             "require": {
@@ -109,7 +109,7 @@
                 "MIT"
             ],
             "description": "eLife patterns",
-            "time": "2018-04-18T12:31:48+00:00"
+            "time": "2018-05-02T13:44:47+00:00"
         },
         {
             "name": "mindplay/composer-locator",
