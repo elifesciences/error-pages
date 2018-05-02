@@ -5,6 +5,7 @@ use eLife\Patterns\PatternRenderer\AssetRecordingPatternRenderer;
 use eLife\Patterns\PatternRenderer\MustachePatternRenderer;
 use eLife\Patterns\ViewModel;
 use Symfony\Component\Console\Application;
+use Symfony\Component\Finder\Finder;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Filesystem\Filesystem;
@@ -23,6 +24,17 @@ require_once __DIR__.'/../vendor/autoload.php';
         $publicPath = 'https://s3-external-1.amazonaws.com/prod-elife-error-pages';
 
         $filesystem = new Filesystem();
+
+        $filesystem->copy(
+          $resourcesBase.'/templates/non-pattern-for-head.mustache',
+          $pageDir.'/non-pattern-for-head.mustache'
+        );
+
+        $nonPatternRenderer = new Mustache_Engine();
+        $nonPatternRenderer->render(
+          $pageDir.'/non-pattern-for-head.mustache',
+          ['assetsPath' => $publicPath.'/assets', 'assetRewrite' => '.']
+        );
 
         $mustache = new Mustache_Engine([
             'helpers' => ['assetsPath' => $publicPath.'/assets', 'assetRewrite' => '.'],

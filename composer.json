@@ -5,7 +5,7 @@
     "license": "MIT",
     "require-dev": {
         "php": "^7.0",
-        "elife/patterns": "dev-master",
+        "elife/patterns": "dev-preload-fonts",
         "mindplay/composer-locator": "^2.1",
         "mustache/mustache": "^2.11",
         "symfony/console": "^3.2",
