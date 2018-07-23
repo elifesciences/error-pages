@@ -1,7 +1,6 @@
 #!/usr/bin/env php
 <?php
 
-use eLife\Patterns\PatternRenderer\AssetRecordingPatternRenderer;
 use eLife\Patterns\PatternRenderer\MustachePatternRenderer;
 use eLife\Patterns\ViewModel;
 use Symfony\Component\Console\Application;
@@ -47,18 +46,9 @@ require_once __DIR__.'/../vendor/autoload.php';
         ];
 
         foreach ($viewModels as $fileName => $viewModel) {
-            $assetRecordingPatternRenderer = new AssetRecordingPatternRenderer($patternRenderer);
+            $pattern = $patternRenderer->render($viewModel);
 
-            $pattern = $assetRecordingPatternRenderer->render($viewModels[] = $viewModel);
-
-            $resourceToPath = function (string $resource) use ($resourcesBase, $publicPath) {
-                return $publicPath.substr($resource, 9);
-            };
-
-            $styleSheets = array_map($resourceToPath, iterator_to_array($assetRecordingPatternRenderer->getStyleSheets()));
-            $javaScripts = array_map($resourceToPath, iterator_to_array($assetRecordingPatternRenderer->getJavaScripts()));
-
-            $filesystem->dumpFile($file = "$outputDir/$fileName.html", $pages[] = $mustache->render('page', ['error' => $pattern, 'styleSheets' => $styleSheets, 'javaScripts' => $javaScripts]));
+            $filesystem->dumpFile($file = "$outputDir/$fileName.html", $pages[] = $mustache->render('page', ['error' => $pattern]));
             $output->writeln("Created $fileName.html");
         }
 
