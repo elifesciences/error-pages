@@ -68,12 +68,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/elifesciences/patterns-php.git",
-                "reference": "f99e114c5af60742416ac6b9e834f34c6ac33567"
+                "reference": "a5a1894f98154910fa5b2e28618722ec5fc23d57"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/elifesciences/patterns-php/zipball/f99e114c5af60742416ac6b9e834f34c6ac33567",
-                "reference": "f99e114c5af60742416ac6b9e834f34c6ac33567",
+                "url": "https://api.github.com/repos/elifesciences/patterns-php/zipball/a5a1894f98154910fa5b2e28618722ec5fc23d57",
+                "reference": "a5a1894f98154910fa5b2e28618722ec5fc23d57",
                 "shasum": ""
             },
             "require": {
@@ -109,7 +109,7 @@
                 "MIT"
             ],
             "description": "eLife patterns",
-            "time": "2020-02-13T16:12:49+00:00"
+            "time": "2020-09-24T12:49:20+00:00"
         },
         {
             "name": "mindplay/composer-locator",
@@ -481,5 +481,6 @@
     "platform": [],
     "platform-dev": {
         "php": "^7.0"
-    }
+    },
+    "plugin-api-version": "1.1.0"
 }
