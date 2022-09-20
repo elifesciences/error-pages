@@ -68,12 +68,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/elifesciences/patterns-php.git",
-                "reference": "8964ddf7d34ea054acf4dbd88bbae4fec5c3f542"
+                "reference": "8b7049b0b7dadce5e8e818ade58a8e48ac81a757"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/elifesciences/patterns-php/zipball/8964ddf7d34ea054acf4dbd88bbae4fec5c3f542",
-                "reference": "8964ddf7d34ea054acf4dbd88bbae4fec5c3f542",
+                "url": "https://api.github.com/repos/elifesciences/patterns-php/zipball/8b7049b0b7dadce5e8e818ade58a8e48ac81a757",
+                "reference": "8b7049b0b7dadce5e8e818ade58a8e48ac81a757",
                 "shasum": ""
             },
             "require": {
@@ -82,7 +82,7 @@
                 "php": "^7.0"
             },
             "require-dev": {
-                "justinrainbow/json-schema": "^5.0",
+                "justinrainbow/json-schema": "^5.1",
                 "php-jsonpointer/php-jsonpointer": "^1.0",
                 "phpspec/prophecy": "^1.10",
                 "phpunit/phpunit": "^5.2",
@@ -91,7 +91,7 @@
                 "symfony/finder": "^3.0",
                 "symfony/process": "^3.0",
                 "symfony/yaml": "^3.1",
-                "twig/twig": "^2.0"
+                "twig/twig": "^2.10"
             },
             "suggest": {
                 "twig/twig": "^2.0, to use PatternExtension"
@@ -110,7 +110,7 @@
                 "MIT"
             ],
             "description": "eLife patterns",
-            "time": "2022-04-20T09:22:47+00:00"
+            "time": "2022-09-17T09:25:07+00:00"
         },
         {
             "name": "mindplay/composer-locator",
