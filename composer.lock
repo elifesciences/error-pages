@@ -60,6 +60,10 @@
                 "assertion",
                 "validation"
             ],
+            "support": {
+                "issues": "https://github.com/beberlei/assert/issues",
+                "source": "https://github.com/beberlei/assert/tree/master"
+            },
             "time": "2017-01-24T15:14:39+00:00"
         },
         {
@@ -79,7 +83,7 @@
             "require": {
                 "beberlei/assert": "^2.0",
                 "mustache/mustache": "^2.5",
-                "php": "^7.0"
+                "php": "^7.1 || ^8.0"
             },
             "require-dev": {
                 "justinrainbow/json-schema": "^5.1",
@@ -96,6 +100,7 @@
             "suggest": {
                 "twig/twig": "^2.0, to use PatternExtension"
             },
+            "default-branch": true,
             "type": "library",
             "autoload": {
                 "files": [
@@ -110,28 +115,34 @@
                 "MIT"
             ],
             "description": "eLife patterns",
+            "support": {
+                "source": "https://github.com/elifesciences/patterns-php/tree/master"
+            },
             "time": "2023-08-10T11:16:11+00:00"
         },
         {
             "name": "mindplay/composer-locator",
-            "version": "2.1.1",
+            "version": "2.1.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/mindplay-dk/composer-locator.git",
-                "reference": "24c960f014904c35ce89b77fc4118903c34b3fe6"
+                "reference": "d206ce7a5a88f5336332f489be0c8988eddb7a38"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mindplay-dk/composer-locator/zipball/24c960f014904c35ce89b77fc4118903c34b3fe6",
-                "reference": "24c960f014904c35ce89b77fc4118903c34b3fe6",
+                "url": "https://api.github.com/repos/mindplay-dk/composer-locator/zipball/d206ce7a5a88f5336332f489be0c8988eddb7a38",
+                "reference": "d206ce7a5a88f5336332f489be0c8988eddb7a38",
                 "shasum": ""
             },
             "require": {
-                "composer-plugin-api": "^1",
+                "composer-plugin-api": "^1.0 || ^2.0",
                 "php": ">= 5.4"
             },
             "require-dev": {
-                "composer/composer": "^1"
+                "composer/composer": "^1.0 || ^2.0",
+                "mindplay/testies": "^0.3.0",
+                "symfony/filesystem": "^2.7 || ^3.0",
+                "symfony/process": "^2.7 || ^3.0"
             },
             "type": "composer-plugin",
             "extra": {
@@ -148,7 +159,12 @@
                 "MIT"
             ],
             "description": "Locates Composer package root folders by package name",
-            "time": "2016-06-07T14:40:59+00:00"
+            "support": {
+                "issues": "https://github.com/mindplay-dk/composer-locator/issues",
+                "source": "https://github.com/mindplay-dk/composer-locator/tree/2.1.4"
+            },
+            "abandoned": "composer-runtime-api",
+            "time": "2020-12-23T10:58:04+00:00"
         },
         {
             "name": "mustache/mustache",
@@ -194,6 +210,10 @@
                 "mustache",
                 "templating"
             ],
+            "support": {
+                "issues": "https://github.com/bobthecow/mustache.php/issues",
+                "source": "https://github.com/bobthecow/mustache.php/tree/v2.14.1"
+            },
             "time": "2022-01-21T06:08:36+00:00"
         },
         {
@@ -241,6 +261,9 @@
                 "psr",
                 "psr-3"
             ],
+            "support": {
+                "source": "https://github.com/php-fig/log/tree/master"
+            },
             "time": "2016-10-10T12:19:37+00:00"
         },
         {
@@ -304,6 +327,9 @@
             ],
             "description": "Symfony Console Component",
             "homepage": "https://symfony.com",
+            "support": {
+                "source": "https://github.com/symfony/console/tree/3.2"
+            },
             "time": "2017-03-06T19:30:27+00:00"
         },
         {
@@ -361,6 +387,10 @@
             ],
             "description": "Symfony Debug Component",
             "homepage": "https://symfony.com",
+            "support": {
+                "source": "https://github.com/symfony/debug/tree/3.2"
+            },
+            "abandoned": "symfony/error-handler",
             "time": "2017-02-18T17:28:00+00:00"
         },
         {
@@ -410,6 +440,9 @@
             ],
             "description": "Symfony Filesystem Component",
             "homepage": "https://symfony.com",
+            "support": {
+                "source": "https://github.com/symfony/filesystem/tree/3.2"
+            },
             "time": "2017-03-06T19:30:27+00:00"
         },
         {
@@ -469,6 +502,9 @@
                 "portable",
                 "shim"
             ],
+            "support": {
+                "source": "https://github.com/symfony/polyfill-mbstring/tree/master"
+            },
             "time": "2016-11-14T01:06:16+00:00"
         }
     ],
@@ -483,5 +519,5 @@
     "platform-dev": {
         "php": "^7.0"
     },
-    "plugin-api-version": "1.1.0"
+    "plugin-api-version": "2.2.0"
 }
