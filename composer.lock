@@ -72,12 +72,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/elifesciences/patterns-php.git",
-                "reference": "67ba5668336c3b0e8aea90c62c9215136bc183d9"
+                "reference": "b9247c4a519d20ed12891a3e0ce85c08ffae1192"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/elifesciences/patterns-php/zipball/67ba5668336c3b0e8aea90c62c9215136bc183d9",
-                "reference": "67ba5668336c3b0e8aea90c62c9215136bc183d9",
+                "url": "https://api.github.com/repos/elifesciences/patterns-php/zipball/b9247c4a519d20ed12891a3e0ce85c08ffae1192",
+                "reference": "b9247c4a519d20ed12891a3e0ce85c08ffae1192",
                 "shasum": ""
             },
             "require": {
@@ -116,9 +116,9 @@
             ],
             "description": "eLife patterns",
             "support": {
-                "source": "https://github.com/elifesciences/patterns-php/tree/master"
+                "source": "https://github.com/elifesciences/patterns-php/tree/experimental-modern-gulp"
             },
-            "time": "2023-08-10T11:16:11+00:00"
+            "time": "2026-02-10T09:56:51+00:00"
         },
         {
             "name": "mindplay/composer-locator",
